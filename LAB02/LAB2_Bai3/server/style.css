@@ -1,0 +1,64 @@
+/* Căn giữa toàn bộ nội dung */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Định dạng các phần tử trong giao diện */
+h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+/* Định dạng nút "Tải lên" và "Cập nhật Config" */
+input[type="submit"],
+button {
+    background-color: #a65233; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px; /* Bo góc của nút */
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #a65233; 
+}
+
+/* Định dạng nút "Cập nhật Config" và các ô nhập nội dung */
+button, input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px; /* Thay đổi giá trị này để điều chỉnh khoảng cách giữa các ô nhập nội dung */
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Định dạng form */
+form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fdf3f4;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}

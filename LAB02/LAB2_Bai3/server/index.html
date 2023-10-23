@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý ứng dụng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+      <h2>Danh sách các bản cập nhật</h2>
+      <ul id="fileList"></ul>
+      <button onclick="deletefile()">Xóa file</button>
+      <h2>Tải lên một bản cập nhật mới</h2>
+      <form action="/update" method="post" enctype="multipart/form-data">
+          <input type="file" name="update">
+          <button type="submit">Tải lên</button>
+      </form>
+    
+    
+
+      <h2>Cập nhật thông tin config</h2>
+      <form id="config-form">
+          <label for="name">Tên ứng dụng:</label>
+          <input type="text" id="name" name="name">
+
+          <label for="path">Đường dẫn file:</label>
+          <input type="text" id="path" name="path">
+
+          <label for="version">Phiên bản ứng dụng:</label>
+          <input type="text" id="version" name="version">
+          <button type="button" onclick="updateConfig()">Cập nhật Config</button>
+      </form>
+  </div>
+
+  <script>
+    function updateConfig() {
+        const name = document.getElementById("name").value;
+        const path = document.getElementById("path").value;
+        const version = document.getElementById("version").value;
+
+        // Gửi dữ liệu đến server để cập nhật config.json
+        fetch('/updateConfig', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, path, version })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Hiển thị thông báo từ server
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    
+    function deletefile() {
+            fetch('/deleteFile', {
+                method: 'POST'
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    // Nếu xóa thành công, cập nhật lại danh sách tệp
+                    fetchAndUpdateFileList();
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    // // Lấy thẻ UL để hiển thị danh sách tệp
+    const fileList = document.getElementById('fileList');
+
+    // Function để lấy và hiển thị danh sách các tệp đã tải lên
+    function fetchAndUpdateFileList() {
+        // Sử dụng Fetch API để gửi yêu cầu GET đến endpoint trả về danh sách tệp
+        fetch('/getUpdateFiles')
+            .then(response => response.json())
+            .then(data => {
+                fileList.innerHTML = ''; // Xóa danh sách tệp hiện tại
+                // Duyệt qua danh sách tệp và thêm chúng vào danh sách UL
+                data.files.forEach(file => {
+                    const li = document.createElement('li');
+                    li.textContent = file;
+                    fileList.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Gọi hàm để lấy danh sách tệp khi trang web được tải lên
+    fetchAndUpdateFileList();
+</script>
+</body>
+
+</html>
